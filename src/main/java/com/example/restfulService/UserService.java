@@ -1,11 +1,12 @@
 package com.example.restfulService;
 
 import com.example.restfulService.domain.User;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+@Service
 public class UserService {
 
     private static List<User> userList = new ArrayList<>();
@@ -23,11 +24,13 @@ public class UserService {
     }
 
     public User findById(Long id){
-        User user = userList.stream()
-                .filter(u -> u.getId().equals(id))
-                .findFirst().get();
+        for(User user : userList){
+            if (user.getId().equals(id)){
+                return user;
+            }
+        }
 
-        return user;
+        return null;
     }
 
     public User save(User user){
