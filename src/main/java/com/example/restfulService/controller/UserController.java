@@ -2,6 +2,7 @@ package com.example.restfulService.controller;
 
 import com.example.restfulService.UserService;
 import com.example.restfulService.domain.User;
+import com.example.restfulService.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,13 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public User retrieveUser(@PathVariable Long id){
-        return userService.findById(id);
+        User user = userService.findById(id);
+
+        if(user == null){
+            throw new UserNotFoundException("ID[" + id + "] not found");
+        }
+        return user;
+
     }
 
     @PostMapping("/users")
